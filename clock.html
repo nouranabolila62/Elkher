@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساعة العالم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .clocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .clock-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .city-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .time {
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 5px;
+        }
+
+        .timezone {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ ساعة العالم</h1>
+        <div class="clocks-grid" id="clocksContainer"></div>
+    </div>
+
+    <script>
+        const timezones = [
+            { city: 'القاهرة 🇪🇬', timezone: 'Africa/Cairo' },
+            { city: 'دبي 🇦🇪', timezone: 'Asia/Dubai' },
+            { city: 'لندن 🇬🇧', timezone: 'Europe/London' },
+            { city: 'نيويورك 🇺🇸', timezone: 'America/New_York' },
+            { city: 'طوكيو 🇯🇵', timezone: 'Asia/Tokyo' },
+            { city: 'سيدني 🇦🇺', timezone: 'Australia/Sydney' }
+        ];
+
+        function updateClocks() {
+            const container = document.getElementById('clocksContainer');
+            container.innerHTML = '';
+
+            timezones.forEach(({ city, timezone }) => {
+                const time = new Date().toLocaleString('ar-EG', {
+                    timeZone: timezone,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                });
+
+                const clockBox = document.createElement('div');
+                clockBox.className = 'clock-box';
+                clockBox.innerHTML = `
+                    <div class="city-name">${city}</div>
+                    <div class="time">${time}</div>
+                    <div class="timezone">${timezone}</div>
+                `;
+                container.appendChild(clockBox);
+            });
+        }
+
+        // تحديث الساعة كل ثانية
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>
